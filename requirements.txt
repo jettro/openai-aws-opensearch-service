@@ -1,0 +1,11 @@
+langchain
+unstructured
+markdown
+pandas
+opensearch-py
+boto3
+requests
+requests-aws4auth
+python-dotenv
+openai
+tiktoken

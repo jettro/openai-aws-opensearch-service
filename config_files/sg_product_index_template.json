@@ -1,0 +1,22 @@
+{
+  "index_patterns": ["sg-products-*"],
+  "priority": 10,
+  "template": {
+    "mappings": {
+      "properties": {
+        "category": {
+          "type": "keyword"
+        },
+        "description": {
+          "type": "text"
+        }
+      }
+    }
+  },
+  "composed_of": [
+    "sg_product_component_settings",
+    "sg_product_component_dynamic_mappings",
+    "sg_product_component_mappings"
+  ],
+  "version": 3
+}
