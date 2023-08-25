@@ -9,3 +9,4 @@ requests-aws4auth
 python-dotenv
 openai
 tiktoken
+wandb

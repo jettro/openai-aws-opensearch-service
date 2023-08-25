@@ -69,8 +69,8 @@ class OpenSearchClient:
         search_log.info(f'Indexing shoe: {product["id"]} into index with name {index_name}')
         self.opensearch.index(index=index_name, id=product["id"], body=product)
 
-    def search(self, body, explain: bool = False):
-        search_results = self.opensearch.search(index=self.alias_name, body=body, explain=explain)
+    def search(self, body, explain: bool = False, size: int = 10):
+        search_results = self.opensearch.search(index=self.alias_name, body=body, explain=explain, size=size)
         return search_results
 
     def set_component_template(self, name, body):
