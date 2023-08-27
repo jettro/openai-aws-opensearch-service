@@ -11,3 +11,4 @@ openai
 tiktoken
 wandb
 streamlit
+faiss-cpu
