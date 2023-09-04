@@ -1,0 +1,16 @@
+{
+  "index_patterns": ["sg-content-*"],
+  "priority": 10,
+  "template": {
+    "mappings": {
+      "properties": {
+      }
+    }
+  },
+  "composed_of": [
+    "sg_content_component_settings",
+    "sg_content_component_dynamic_mappings",
+    "sg_content_component_mappings"
+  ],
+  "version": 3
+}

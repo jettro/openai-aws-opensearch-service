@@ -1,0 +1,17 @@
+{
+  "index_patterns": ["sg-stores-*"],
+  "priority": 10,
+  "template": {
+    "mappings": {
+      "properties": {
+
+      }
+    }
+  },
+  "composed_of": [
+    "sg_stores_component_settings",
+    "sg_stores_component_dynamic_mappings",
+    "sg_stores_component_mappings"
+  ],
+  "version": 1
+}

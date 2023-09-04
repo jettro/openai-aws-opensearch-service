@@ -4,8 +4,7 @@ from requests_aws4auth import AWS4Auth
 from retriever.opensearch import OpenSearchClient
 
 
-def find_auth_opensearch(profile_name:str = 'sandbox'):
-
+def find_auth_opensearch(profile_name: str = 'sandbox'):
     session = boto3.Session(profile_name='sandbox')
 
     # Fetch outputs of the CloudFormation stack
@@ -39,11 +38,10 @@ def find_auth_opensearch(profile_name:str = 'sandbox'):
         region, 'es',
         session_token=response['Credentials']['SessionToken']
     )
-    return {"host":host, "port":port, "auth":auth}
+    return {"host": host, "port": port, "auth": auth}
 
 
 if __name__ == '__main__':
-    config = find_auth_opensearch()
-    client = OpenSearchClient(config, alias_name="jettro")
+    client = OpenSearchClient(find_auth_opensearch(), alias_name="jettro")
 
     print(client.ping())

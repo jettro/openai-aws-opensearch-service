@@ -1,0 +1,25 @@
+{
+  "template": {
+    "mappings": {
+      "properties": {
+        "opening_hours": {
+          "type": "nested",
+          "properties": {
+            "week_day" : {
+              "type": "text"
+            },
+            "open_time": {
+              "type": "date",
+              "format": "strict_hour_minute"
+            },
+            "closing_time": {
+              "type": "date",
+              "format": "strict_hour_minute"
+            }
+          }
+        }
+      }
+    }
+  },
+  "version": 1
+}

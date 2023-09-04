@@ -1,0 +1,13 @@
+{
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 0,
+      "knn.algo_param": {
+        "ef_search": "512"
+      },
+      "knn": "true"
+    }
+  },
+  "version": 2
+}
