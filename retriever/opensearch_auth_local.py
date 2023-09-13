@@ -1,11 +1,18 @@
+import os
+
 import boto3
+from opensearchpy import AWSV4SignerAuth
 from requests_aws4auth import AWS4Auth
 
 from retriever.opensearch import OpenSearchClient
 
 
 def find_auth_opensearch(profile_name: str = 'sandbox'):
-    session = boto3.Session(profile_name='sandbox')
+    is_local = 'AWS_SAGEMAKER_PYTHONNOUSERSITE' not in os.environ
+    if is_local:
+        session = boto3.Session(profile_name=profile_name)
+    else:
+        session = boto3.Session()
 
     # Fetch outputs of the CloudFormation stack
     cfn = session.client('cloudformation')
@@ -24,24 +31,28 @@ def find_auth_opensearch(profile_name: str = 'sandbox'):
     port = 443
     region = 'eu-west-1'  # e.g. us-west-1
 
-    # Assume Created OpenSearch Admin Role
-    session = boto3.Session(profile_name=profile_name)
-    sts = session.client('sts')
-    response = sts.assume_role(
-        RoleArn=outputs['cdk-os-sg-AdminUserRoleArn'],
-        RoleSessionName="assumed-opensearch-user-admin-role",
-    )
+    if is_local:
+        # Assume Created OpenSearch Admin Role
+        sts = session.client('sts')
+        response = sts.assume_role(
+            RoleArn=outputs['cdk-os-sg-AdminUserRoleArn'],
+            RoleSessionName="assumed-opensearch-user-admin-role",
+        )
 
-    # Create OpenSearch client
-    auth = AWS4Auth(
-        response['Credentials']['AccessKeyId'], response['Credentials']['SecretAccessKey'],
-        region, 'es',
-        session_token=response['Credentials']['SessionToken']
-    )
+        # Create OpenSearch client
+        auth = AWS4Auth(
+            response['Credentials']['AccessKeyId'], response['Credentials']['SecretAccessKey'],
+            region, 'es',
+            session_token=response['Credentials']['SessionToken']
+        )
+    else:
+        credentials = session.get_credentials()
+        auth = AWSV4SignerAuth(credentials, region)
+
     return {"host": host, "port": port, "auth": auth}
 
 
 if __name__ == '__main__':
-    client = OpenSearchClient(find_auth_opensearch(), alias_name="jettro")
+    client = OpenSearchClient(find_auth_opensearch())
 
     print(client.ping())
