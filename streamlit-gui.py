@@ -46,11 +46,13 @@ def execute_semantic_search(vector_store: OpenSearchVectorSearch, query: str):
 
 def print_images(images: list):
     for item in images:
-        st.image(image="./images/" + item['image_name'],
-                 caption=item['title'],
-                 width=200)
-
-        st.write(item['score'])
+        col_image_left, col_text_left = st.columns([1, 2])
+        with col_image_left:
+            st.image(image="./images/" + item['image_name'],
+                     width=150)
+        with col_text_left:
+            st.write(item['title'])
+            st.write(item['score'])
 
 
 if __name__ == '__main__':
